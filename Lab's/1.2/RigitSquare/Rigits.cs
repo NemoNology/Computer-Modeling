@@ -2,7 +2,7 @@
 
 namespace RigitSquare
 {
-    public class RigitSquare : IRigidBody2D
+    public class RigitsSquare : IRigidBody2D
     {
         /// <summary>
         /// Side Legth
