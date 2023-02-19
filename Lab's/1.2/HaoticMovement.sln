@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.33214.272
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rigits", "RigitSquare\Rigits.csproj", "{D6E7040B-4282-434C-BB10-7F16D09D6980}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RigitBody2D", "RigitBody2D\RigitBody2D.csproj", "{5A6D2B31-97A1-4053-BAD1-A4B02CE1C7D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D6E7040B-4282-434C-BB10-7F16D09D6980}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6E7040B-4282-434C-BB10-7F16D09D6980}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6E7040B-4282-434C-BB10-7F16D09D6980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A6D2B31-97A1-4053-BAD1-A4B02CE1C7D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A6D2B31-97A1-4053-BAD1-A4B02CE1C7D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A6D2B31-97A1-4053-BAD1-A4B02CE1C7D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A6D2B31-97A1-4053-BAD1-A4B02CE1C7D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
