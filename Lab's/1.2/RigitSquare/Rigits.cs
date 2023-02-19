@@ -1,4 +1,6 @@
-﻿namespace Rigits
+﻿using RigitBody2D;
+
+namespace Rigits
 {
     public class RigitSquare : IRigidBody2D
     {
@@ -10,7 +12,7 @@
         /// <summary>
         /// Square Center Coordinates
         /// </summary>
-        public Point Coordinates { get; set; } = 0;
+        public Point Coordinates { get; set; }
 
         /// <summary>
         /// Speed by X - How change X Coordinate by time
@@ -47,8 +49,7 @@
         /// </summary>
         public void Move()
         {
-            Coordinates.X += SpeedX;
-            Coordinates.Y += SpeedY;
+            Coordinates = new Point(Coordinates.X + (int)SpeedX, Coordinates.Y + (int)SpeedY);
 
             SpeedX += AccelerationX;
             SpeedY += AccelerationY;
@@ -60,7 +61,7 @@
         /// <summary>
         /// Square Center Coordinates
         /// </summary>
-        public Point Coordinates { get; set; } = 0;
+        public Point Coordinates { get; set; } = new Point(0, 0);
 
         /// <summary>
         /// Speed by X - How change X Coordinate by time
@@ -97,8 +98,7 @@
         /// </summary>
         public void Move()
         {
-            Coordinates.X += SpeedX;
-            Coordinates.Y += SpeedY;
+            Coordinates = new Point(Coordinates.X + (int)SpeedX, Coordinates.Y + (int)SpeedY);
 
             SpeedX += AccelerationX;
             SpeedY += AccelerationY;
@@ -115,7 +115,7 @@
         /// <summary>
         /// Square Center Coordinates
         /// </summary>
-        public Point Coordinates { get; set; } = 0;
+        public Point Coordinates { get; set; } = new Point(0, 0);
 
         /// <summary>
         /// Speed by X - How change X Coordinate by time
@@ -152,8 +152,7 @@
         /// </summary>
         public void Move()
         {
-            Coordinates.X += SpeedX;
-            Coordinates.Y += SpeedY;
+            Coordinates = new Point(Coordinates.X + (int)SpeedX, Coordinates.Y + (int)SpeedY);
 
             SpeedX += AccelerationX;
             SpeedY += AccelerationY;
