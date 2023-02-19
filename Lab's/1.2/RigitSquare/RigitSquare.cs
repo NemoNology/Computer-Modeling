@@ -34,12 +34,19 @@ namespace RigitSquare
         /// </summary>
         public double AccelerationY { get; set; } = 0;
 
+        /// <summary>
+        /// Set Speed by new Coordinates
+        /// </summary>
+        /// <param name="point">  New Coordinates  </param>
         public void MovementVectorByNewCoordinates(Point point)
         {
             SpeedX = point.X - Coordinates.X;
             SpeedY = point.Y - Coordinates.Y;
         }
 
+        /// <summary>
+        /// Change Coordinates and Speed
+        /// </summary>
         public void Move()
         {
             Coordinates.X += SpeedX;
