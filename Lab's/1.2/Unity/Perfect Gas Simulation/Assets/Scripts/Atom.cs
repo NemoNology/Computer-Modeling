@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
 
 public class Atom : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int Size { get; set; }
+    public int Speed { get; set; }
+    public Vector2 Direction { get; set; }
 
-    // Update is called once per frame
-    void Update()
+    public Atom(int speed, Vector2 direction, int size)
     {
-        
+        Speed = speed;
+        Direction = direction;
+        Size = size;
+    }
+    
+    private void FixedUpdate()
+    {
+        transform.Translate(Direction.x * Speed, Direction.y * Speed, 0);
     }
 }
