@@ -3,19 +3,17 @@ using Vector2 = UnityEngine.Vector2;
 
 public class Atom : MonoBehaviour
 {
-    public int Size { get; set; }
-    public int Speed { get; set; }
-    public Vector2 Direction { get; set; }
+    public Vector2 Coordinates { get; set; }
+    public Vector2 Movement { get; set; }
 
-    public Atom(int speed, Vector2 direction, int size)
+    public Atom(Vector2 coordinates, Vector2 movement)
     {
-        Speed = speed;
-        Direction = direction;
-        Size = size;
+        Coordinates = coordinates;
+        Movement = movement;
     }
-    
-    private void FixedUpdate()
+    public void Move()
     {
-        transform.Translate(Direction.x * Speed, Direction.y * Speed, 0);
+        Coordinates.Set(Coordinates.x + Movement.x,
+            Coordinates.y + Movement.y);
     }
 }
