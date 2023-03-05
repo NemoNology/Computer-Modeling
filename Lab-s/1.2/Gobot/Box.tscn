@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://1vs6xpdbc7oq"]
+
+[ext_resource type="Script" path="res://WallHB.cs" id="1_awla0"]
+
+[sub_resource type="Gradient" id="Gradient_5os76"]
+colors = PackedColorArray(0.631373, 0.631373, 0.631373, 1, 0.631373, 0.631373, 0.631373, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xorlu"]
+gradient = SubResource("Gradient_5os76")
+
+[sub_resource type="Gradient" id="Gradient_ryfcq"]
+colors = PackedColorArray(0.0823529, 0.0823529, 0.0823529, 1, 0.0823529, 0.0823529, 0.0823529, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ski6k"]
+gradient = SubResource("Gradient_ryfcq")
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_tad6h"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_fejk8"]
+
+[node name="Box" type="Node2D"]
+position = Vector2(30, 27)
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Wall" type="Sprite2D" parent="Panel"]
+position = Vector2(-11, -10)
+scale = Vector2(11.4794, 9.77537)
+texture = SubResource("GradientTexture2D_xorlu")
+centered = false
+
+[node name="Background" type="Sprite2D" parent="Panel"]
+position = Vector2(1, 1)
+scale = Vector2(11.0697, 9.3184)
+texture = SubResource("GradientTexture2D_ski6k")
+centered = false
+
+[node name="WallVL" type="StaticBody2D" parent="Panel"]
+material = SubResource("CanvasItemMaterial_tad6h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallVL"]
+scale = Vector2(1, 60)
+shape = SubResource("SegmentShape2D_fejk8")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="WallVR" type="StaticBody2D" parent="Panel"]
+material = SubResource("CanvasItemMaterial_tad6h")
+position = Vector2(711, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallVR"]
+scale = Vector2(1, 60)
+shape = SubResource("SegmentShape2D_fejk8")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="WallHT" type="StaticBody2D" parent="Panel"]
+material = SubResource("CanvasItemMaterial_tad6h")
+position = Vector2(709, 0)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallHT"]
+scale = Vector2(1, 70.7)
+shape = SubResource("SegmentShape2D_fejk8")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="WallHB" type="StaticBody2D" parent="Panel"]
+material = SubResource("CanvasItemMaterial_tad6h")
+position = Vector2(709, 599)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallHB"]
+scale = Vector2(1, 70.7)
+shape = SubResource("SegmentShape2D_fejk8")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+script = ExtResource("1_awla0")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc66e2i6me8b1"]
+
+[ext_resource type="Texture2D" uid="uid://6isjrfnm6jg5" path="res://icon.svg" id="1_i2y07"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7qkyd"]
+
+[node name="Atom" type="RigidBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7qkyd")
+debug_color = Color(0.858824, 0.329412, 0.4, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.123354, 0.123354)
+texture = ExtResource("1_i2y07")

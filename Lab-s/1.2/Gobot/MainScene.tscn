@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dm2iv1di5edxe"]
+
+[ext_resource type="PackedScene" uid="uid://1vs6xpdbc7oq" path="res://Box.tscn" id="1_f8nx4"]
+[ext_resource type="PackedScene" uid="uid://bc66e2i6me8b1" path="res://Atom.tscn" id="2_jama6"]
+
+[sub_resource type="Gradient" id="Gradient_sc44m"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.730519)
+colors = PackedColorArray(0.145098, 0.145098, 0.145098, 1, 0.270588, 0.270588, 0.270588, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dll3h"]
+gradient = SubResource("Gradient_sc44m")
+
+[node name="MainScene" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(-16, -13)
+scale = Vector2(18.44, 10.5813)
+texture = SubResource("GradientTexture2D_dll3h")
+centered = false
+
+[node name="Box" parent="." instance=ExtResource("1_f8nx4")]
+position = Vector2(57, 17)
+
+[node name="Atom" parent="." instance=ExtResource("2_jama6")]
+position = Vector2(280, 137)
