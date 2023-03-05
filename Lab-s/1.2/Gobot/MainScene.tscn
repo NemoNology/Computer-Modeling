@@ -24,3 +24,4 @@ position = Vector2(57, 17)
 
 [node name="Atom" parent="." instance=ExtResource("2_jama6")]
 position = Vector2(280, 137)
+gravity_scale = 0.0

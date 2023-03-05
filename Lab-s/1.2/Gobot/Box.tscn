@@ -1,7 +1,5 @@
 [gd_scene load_steps=8 format=3 uid="uid://1vs6xpdbc7oq"]
 
-[ext_resource type="Script" path="res://WallHB.cs" id="1_awla0"]
-
 [sub_resource type="Gradient" id="Gradient_5os76"]
 colors = PackedColorArray(0.631373, 0.631373, 0.631373, 1, 0.631373, 0.631373, 0.631373, 1)
 
@@ -20,7 +18,30 @@ particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="SegmentShape2D" id="SegmentShape2D_fejk8"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kile8"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_1sltx"]
+script/source = "using System;
+using Godot;
+
+public partial class WallHB : CollisionShape2D
+{
+	private CollisionShape2D _test = new CollisionShape2D(); 
+	
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		
+	}
+	
+	
+}
+"
 
 [node name="Box" type="Node2D"]
 position = Vector2(30, 27)
@@ -45,8 +66,9 @@ centered = false
 material = SubResource("CanvasItemMaterial_tad6h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallVL"]
-scale = Vector2(1, 60)
-shape = SubResource("SegmentShape2D_fejk8")
+position = Vector2(-9, 296)
+scale = Vector2(1, 30)
+shape = SubResource("RectangleShape2D_kile8")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="WallVR" type="StaticBody2D" parent="Panel"]
@@ -54,8 +76,9 @@ material = SubResource("CanvasItemMaterial_tad6h")
 position = Vector2(711, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallVR"]
-scale = Vector2(1, 60)
-shape = SubResource("SegmentShape2D_fejk8")
+position = Vector2(8, 296)
+scale = Vector2(1, 30)
+shape = SubResource("RectangleShape2D_kile8")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="WallHT" type="StaticBody2D" parent="Panel"]
@@ -64,8 +87,9 @@ position = Vector2(709, 0)
 rotation = 1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallHT"]
-scale = Vector2(1, 70.7)
-shape = SubResource("SegmentShape2D_fejk8")
+position = Vector2(-9, 354.946)
+scale = Vector2(1, 36)
+shape = SubResource("RectangleShape2D_kile8")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="WallHB" type="StaticBody2D" parent="Panel"]
@@ -74,7 +98,8 @@ position = Vector2(709, 599)
 rotation = 1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/WallHB"]
-scale = Vector2(1, 70.7)
-shape = SubResource("SegmentShape2D_fejk8")
+position = Vector2(4, 354.946)
+scale = Vector2(0.509, 36)
+shape = SubResource("RectangleShape2D_kile8")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
-script = ExtResource("1_awla0")
+script = SubResource("CSharpScript_1sltx")
