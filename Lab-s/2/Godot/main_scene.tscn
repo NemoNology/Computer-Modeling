@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dche2t3c4e4hr"]
+[gd_scene load_steps=8 format=3 uid="uid://dche2t3c4e4hr"]
 
 [ext_resource type="PackedScene" uid="uid://ci0lpcutklqex" path="res://sphere.tscn" id="1_thxsw"]
+[ext_resource type="Script" path="res://Time.gd" id="2_ofql5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vj3s2"]
 size = Vector2(1227.5, 35.5)
@@ -11,6 +12,13 @@ colors = PackedColorArray(0, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_24l17"]
 gradient = SubResource("Gradient_8d1gt")
+
+[sub_resource type="Gradient" id="Gradient_lp1yg"]
+offsets = PackedFloat32Array(0.526946)
+colors = PackedColorArray(0.0980392, 0.341176, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_frxp0"]
+gradient = SubResource("Gradient_lp1yg")
 
 [node name="MainScene" type="Node2D"]
 
@@ -25,4 +33,106 @@ scale = Vector2(5, 36)
 texture = SubResource("GradientTexture1D_24l17")
 
 [node name="Sphere" parent="." instance=ExtResource("1_thxsw")]
-position = Vector2(530, 255)
+position = Vector2(360, 260)
+
+[node name="Environment" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.117647)
+position = Vector2(362, 419)
+scale = Vector2(2.4, 420)
+texture = SubResource("GradientTexture1D_frxp0")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 837.0
+offset_top = 451.0
+offset_right = 970.0
+offset_bottom = 482.0
+text = "Start Simulation"
+
+[node name="Mass" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MassInput" type="SpinBox" parent="Mass"]
+offset_left = 837.0
+offset_top = 286.0
+offset_right = 920.063
+offset_bottom = 317.0
+max_value = 1000.0
+step = 0.1
+value = 1.0
+
+[node name="Label3" type="Label" parent="Mass"]
+offset_left = 751.0
+offset_top = 286.0
+offset_right = 823.0
+offset_bottom = 312.0
+text = "Mass:"
+horizontal_alignment = 2
+
+[node name="Viscosity" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label2" type="Label" parent="Viscosity"]
+offset_left = 751.0
+offset_top = 392.0
+offset_right = 823.0
+offset_bottom = 418.0
+text = "Viscosity:"
+horizontal_alignment = 2
+
+[node name="ViscosityInput" type="LineEdit" parent="Viscosity"]
+offset_left = 837.0
+offset_top = 392.0
+offset_right = 1030.77
+offset_bottom = 423.0
+placeholder_text = "Input viscosity value..."
+expand_to_text_length = true
+
+[node name="Label4" type="Label" parent="Viscosity"]
+offset_left = 688.0
+offset_top = 336.0
+offset_right = 822.0
+offset_bottom = 362.0
+text = "Viscosity pattern:"
+horizontal_alignment = 2
+
+[node name="ViscosityPatternInput" type="ItemList" parent="Viscosity"]
+layout_mode = 0
+offset_left = 837.0
+offset_top = 336.0
+offset_right = 877.0
+offset_bottom = 376.0
+item_count = 2
+same_column_width = true
+item_0/text = "Water"
+item_1/text = "Air"
+
+[node name="Time2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 56.0
+offset_right = 96.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Time2"]
+offset_left = 775.0
+offset_top = 547.0
+offset_right = 818.0
+offset_bottom = 573.0
+text = "Time:"
+
+[node name="Time" type="Label" parent="Time2"]
+offset_left = 856.0
+offset_top = 547.0
+offset_right = 899.0
+offset_bottom = 573.0
+text = "..."
+script = ExtResource("2_ofql5")
+
+[connection signal="OnSimulateProcess" from="Sphere" to="Time2/Time" method="_on_sphere_on_simulate_process"]
+[connection signal="pressed" from="Button" to="Sphere" method="SimulationStart"]

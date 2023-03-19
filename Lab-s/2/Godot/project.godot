@@ -14,3 +14,7 @@ config/name="Body fall in environment"
 run/main_scene="res://main_scene.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="Body fall in environment"
