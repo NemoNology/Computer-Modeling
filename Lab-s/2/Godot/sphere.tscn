@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://ci0lpcutklqex"]
+
+[ext_resource type="Script" path="res://sphere.gd" id="1_qbcfw"]
+[ext_resource type="Texture2D" uid="uid://yk8tywu83s0u" path="res://SphereSprite.png" id="2_8tpu6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vj5ng"]
+
+[node name="Sphere" type="CharacterBody2D"]
+script = ExtResource("1_qbcfw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vj5ng")
+one_way_collision_margin = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_8tpu6")
