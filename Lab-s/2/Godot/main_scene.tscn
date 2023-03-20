@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dche2t3c4e4hr"]
+[gd_scene load_steps=11 format=3 uid="uid://dche2t3c4e4hr"]
 
 [ext_resource type="PackedScene" uid="uid://ci0lpcutklqex" path="res://sphere.tscn" id="1_thxsw"]
+[ext_resource type="Script" path="res://MassInput.gd" id="2_7e4ak"]
+[ext_resource type="Script" path="res://ViscosityPatternInput.gd" id="2_77at2"]
 [ext_resource type="Script" path="res://Time.gd" id="2_ofql5"]
+[ext_resource type="Script" path="res://ViscosityInput.gd" id="2_rql88"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vj3s2"]
 size = Vector2(1227.5, 35.5)
@@ -48,13 +51,21 @@ offset_right = 970.0
 offset_bottom = 482.0
 text = "Start Simulation"
 
-[node name="Mass" type="Control" parent="."]
+[node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MassInput" type="SpinBox" parent="Mass"]
+[node name="Mass" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 56.0
+offset_right = 40.0
+offset_bottom = 96.0
+
+[node name="MassInput" type="SpinBox" parent="UI/Mass"]
+layout_mode = 0
 offset_left = 837.0
 offset_top = 286.0
 offset_right = 920.063
@@ -62,8 +73,10 @@ offset_bottom = 317.0
 max_value = 1000.0
 step = 0.1
 value = 1.0
+script = ExtResource("2_7e4ak")
 
-[node name="Label3" type="Label" parent="Mass"]
+[node name="Label3" type="Label" parent="UI/Mass"]
+layout_mode = 0
 offset_left = 751.0
 offset_top = 286.0
 offset_right = 823.0
@@ -71,13 +84,55 @@ offset_bottom = 312.0
 text = "Mass:"
 horizontal_alignment = 2
 
-[node name="Viscosity" type="Control" parent="."]
+[node name="Label4" type="Label" parent="UI/Mass"]
+layout_mode = 0
+offset_left = 922.0
+offset_top = 286.0
+offset_right = 953.0
+offset_bottom = 312.0
+text = "kg."
+
+[node name="Radius" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label2" type="Label" parent="Viscosity"]
+[node name="RadiusInput" type="SpinBox" parent="UI/Radius"]
+layout_mode = 0
+offset_left = 837.0
+offset_top = 286.0
+offset_right = 920.063
+offset_bottom = 317.0
+max_value = 1000.0
+step = 0.01
+value = 0.1
+
+[node name="Label3" type="Label" parent="UI/Radius"]
+layout_mode = 0
+offset_left = 751.0
+offset_top = 286.0
+offset_right = 823.0
+offset_bottom = 312.0
+text = "Radius:"
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="UI/Radius"]
+layout_mode = 0
+offset_left = 922.0
+offset_top = 287.0
+offset_right = 953.0
+offset_bottom = 313.0
+text = "m."
+
+[node name="Viscosity" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label2" type="Label" parent="UI/Viscosity"]
+layout_mode = 0
 offset_left = 751.0
 offset_top = 392.0
 offset_right = 823.0
@@ -85,15 +140,34 @@ offset_bottom = 418.0
 text = "Viscosity:"
 horizontal_alignment = 2
 
-[node name="ViscosityInput" type="LineEdit" parent="Viscosity"]
+[node name="Label3" type="Label" parent="UI/Viscosity"]
+layout_mode = 0
+offset_left = 1036.0
+offset_top = 392.0
+offset_right = 1093.0
+offset_bottom = 418.0
+text = "mPa * s"
+horizontal_alignment = 2
+
+[node name="ViscosityInput" type="LineEdit" parent="UI/Viscosity"]
+layout_mode = 0
 offset_left = 837.0
 offset_top = 392.0
 offset_right = 1030.77
 offset_bottom = 423.0
+text = "0"
 placeholder_text = "Input viscosity value..."
 expand_to_text_length = true
+script = ExtResource("2_rql88")
 
-[node name="Label4" type="Label" parent="Viscosity"]
+[node name="Pattern" type="Control" parent="UI/Viscosity"]
+anchors_preset = 0
+offset_top = -298.0
+offset_right = 40.0
+offset_bottom = -258.0
+
+[node name="Label4" type="Label" parent="UI/Viscosity/Pattern"]
+layout_mode = 0
 offset_left = 688.0
 offset_top = 336.0
 offset_right = 822.0
@@ -101,32 +175,32 @@ offset_bottom = 362.0
 text = "Viscosity pattern:"
 horizontal_alignment = 2
 
-[node name="ViscosityPatternInput" type="ItemList" parent="Viscosity"]
+[node name="ViscosityPatternInput" type="ItemList" parent="UI/Viscosity/Pattern"]
 layout_mode = 0
 offset_left = 837.0
 offset_top = 336.0
-offset_right = 877.0
-offset_bottom = 376.0
-item_count = 2
+offset_right = 1028.0
+offset_bottom = 512.0
 same_column_width = true
-item_0/text = "Water"
-item_1/text = "Air"
+script = ExtResource("2_77at2")
 
-[node name="Time2" type="Control" parent="."]
+[node name="Time2" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = 56.0
 offset_right = 96.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="Time2"]
+[node name="Label" type="Label" parent="UI/Time2"]
+layout_mode = 0
 offset_left = 775.0
 offset_top = 547.0
 offset_right = 818.0
 offset_bottom = 573.0
 text = "Time:"
 
-[node name="Time" type="Label" parent="Time2"]
+[node name="Time" type="Label" parent="UI/Time2"]
+layout_mode = 0
 offset_left = 856.0
 offset_top = 547.0
 offset_right = 899.0
@@ -134,5 +208,18 @@ offset_bottom = 573.0
 text = "..."
 script = ExtResource("2_ofql5")
 
-[connection signal="OnSimulateProcess" from="Sphere" to="Time2/Time" method="_on_sphere_on_simulate_process"]
+[node name="Info" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 292.0
+offset_top = 125.0
+offset_right = 445.0
+offset_bottom = 151.0
+text = "Start speed = 1 m/s;"
+
+[connection signal="OnSimulateProcess" from="Sphere" to="UI/Time2/Time" method="_on_sphere_on_simulate_process"]
 [connection signal="pressed" from="Button" to="Sphere" method="SimulationStart"]
+[connection signal="value_changed" from="UI/Mass/MassInput" to="Sphere" method="_on_mass_input_value_changed"]
+[connection signal="value_changed" from="UI/Radius/RadiusInput" to="Sphere" method="_on_radius_input_value_changed"]
+[connection signal="text_changed" from="UI/Viscosity/ViscosityInput" to="Sphere" method="_on_viscosity_input_text_changed"]
+[connection signal="OnViscositySelect" from="UI/Viscosity/Pattern/ViscosityPatternInput" to="UI/Viscosity/ViscosityInput" method="_on_viscosity_pattern_input_on_viscosity_select"]
+[connection signal="item_selected" from="UI/Viscosity/Pattern/ViscosityPatternInput" to="UI/Viscosity/Pattern/ViscosityPatternInput" method="_on_item_selected"]
