@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://drw7s21l3x72h"]
+
+[ext_resource type="Texture2D" uid="uid://bxg04ju88nxk2" path="res://SphereSprite.png" id="1_rdr4h"]
+[ext_resource type="Script" path="res://the_sun.gd" id="1_sgmwp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8rnne"]
+radius = 8.0
+
+[node name="The Sun" type="StaticBody2D"]
+position = Vector2(576, 320)
+script = ExtResource("1_sgmwp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(70, 70)
+shape = SubResource("CircleShape2D_8rnne")
+one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Sun" type="Sprite2D" parent="."]
+modulate = Color(1, 0.345098, 0, 1)
+scale = Vector2(0.862, 0.862)
+texture = ExtResource("1_rdr4h")
