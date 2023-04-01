@@ -13,6 +13,7 @@ func _process(delta):
 	
 
 
-func _on_comet_on_silulation_end():
+
+func _on_comet_on_silulation_start():
 	
 	clear_points();

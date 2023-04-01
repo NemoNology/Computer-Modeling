@@ -1,56 +1,67 @@
-extends CharacterBody2D
+extends Area2D
 
-
-var koef = 3e-13;
 
 var G = 6.67e-11;
 var M = 1.98892e+30;
 
-var _X = 840;
-var _Y = 472;
+var _X = -450;
+var _Y = 0;
 
 var _speed = 10;
 var _alpha = 30;
 
-signal on_silulation_end();
+var vx = 0;
+var vy = 0;
+
+signal on_silulation_start();
 signal on_move(x, y, vx, vy);
 
 func _ready():
 	
-	velocity = Vector2(0, 0);
+	position = Vector2(_X, _Y);
 
 func SimulationStart():
 	
-	SimulationStop();
+	position = Vector2(_X, _Y);
 	
-	velocity.x = koef * _speed * 0.5;
-	velocity.y = -koef * _speed * 0.5;
+	vy = _speed * 0.5;
+	vx = sqrt(_speed * _speed - vy * vy);
+	
+	on_move.emit(position.x, position.y, vx, vy);
+	on_silulation_start.emit();
 
 
 func _physics_process(delta):
 	
-	on_move.emit(position.x, position.y, velocity.x, velocity.y);
-	
-	if velocity == Vector2.ZERO:
+	if vx == 0 and vy == 0:
 		return;
+		
+	on_move.emit(position.x, position.y, vx, vy);
 		
 	var x = position.x;
 	var y = position.y;
-	
-	var fb = koef * -G * M * 1 / (sqrt(x * x + y * y)**3) * delta;
 		
-	velocity.x += fb * x;
-	velocity.y += fb * y;
+	vx = velo(vx, x, y, delta**2);
+	vy = velo(vy, y, x, delta**2);
 
-	move_and_slide()
+	position.x += vx * 3 * delta;
+	position.y += vy * 3 * delta;	
+
+func velo(vel: float, mainPos: float, secondPos: float, Dt: float):
+	
+	var k = sqrt(mainPos * mainPos + secondPos * secondPos);
+	
+	return (vel - (mainPos / (k**3) / Dt));
 
 
 func SimulationStop():
 	
-	on_silulation_end.emit();
-	position = Vector2(_X, _Y);
-	velocity = Vector2.ZERO;
+	vx = 0;
+	vy = 0;
 
+func _on_body_entered(body):
+	
+	SimulationStop();
 
 func _on_input_speed_value_changed(value):
 	

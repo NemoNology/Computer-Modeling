@@ -1,35 +1,39 @@
 [gd_scene load_steps=8 format=3 uid="uid://b8yk30ebjusq5"]
 
 [ext_resource type="Script" path="res://InputSpeed.gd" id="1_sfvat"]
-[ext_resource type="Texture2D" uid="uid://bxg04ju88nxk2" path="res://SphereSprite.png" id="1_v6xpj"]
 [ext_resource type="Script" path="res://X.gd" id="2_ag8qm"]
 [ext_resource type="PackedScene" uid="uid://da58lr2wiinq" path="res://comet.tscn" id="2_lrq6l"]
+[ext_resource type="Script" path="res://Y.gd" id="3_s13ec"]
 [ext_resource type="Script" path="res://vX.gd" id="4_hvd5g"]
 [ext_resource type="Script" path="res://vY.gd" id="5_l2ix7"]
-
-[sub_resource type="GDScript" id="GDScript_rcq7w"]
+[ext_resource type="PackedScene" uid="uid://drw7s21l3x72h" path="res://the_sun.tscn" id="6_e1l7i"]
 
 [node name="MainScene" type="Node2D"]
+position = Vector2(576, 320)
+
+[node name="MainCamera" type="Camera2D" parent="."]
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_top = -29.0
-offset_right = 40.0
-offset_bottom = 11.0
+offset_left = -576.0
+offset_top = -320.0
+offset_right = -536.0
+offset_bottom = -280.0
 
 [node name="Speed" type="Control" parent="UI"]
 anchors_preset = 0
 offset_left = 72.0
-offset_top = 40.0
+offset_top = 8.0
 offset_right = 112.0
-offset_bottom = 80.0
+offset_bottom = 48.0
 
 [node name="InputSpeed" type="SpinBox" parent="UI/Speed"]
 layout_mode = 0
 offset_right = 133.0
 offset_bottom = 31.0
 max_value = 10000.0
+value = 10.0
 script = ExtResource("1_sfvat")
 
 [node name="Label" type="Label" parent="UI/Speed"]
@@ -51,10 +55,10 @@ text = "km/s"
 
 [node name="SimulationButtons" type="Control" parent="UI"]
 anchors_preset = 0
-offset_left = 268.0
-offset_top = 42.0
-offset_right = 308.0
-offset_bottom = 82.0
+offset_left = 276.0
+offset_top = 8.0
+offset_right = 316.0
+offset_bottom = 48.0
 
 [node name="Start" type="Button" parent="UI/SimulationButtons"]
 layout_mode = 0
@@ -71,10 +75,10 @@ text = "Stop Simulation"
 
 [node name="KometInfo" type="Control" parent="UI"]
 anchors_preset = 0
-offset_left = 63.0
-offset_top = 639.0
-offset_right = 103.0
-offset_bottom = 667.0
+offset_left = 72.0
+offset_top = 608.0
+offset_right = 112.0
+offset_bottom = 636.0
 
 [node name="Label" type="Label" parent="UI/KometInfo"]
 layout_mode = 0
@@ -108,7 +112,7 @@ offset_left = 165.0
 offset_top = 2.0
 offset_right = 246.0
 offset_bottom = 28.0
-script = SubResource("GDScript_rcq7w")
+script = ExtResource("3_s13ec")
 
 [node name="Label3" type="Label" parent="UI/KometInfo"]
 layout_mode = 0
@@ -144,13 +148,11 @@ offset_right = 644.0
 offset_bottom = 28.0
 script = ExtResource("5_l2ix7")
 
-[node name="Sun" type="Sprite2D" parent="."]
-modulate = Color(1, 0.345098, 0, 1)
-position = Vector2(576, 320)
-texture = ExtResource("1_v6xpj")
+[node name="The Sun" parent="." instance=ExtResource("6_e1l7i")]
+position = Vector2(0, 0)
 
 [node name="Comet" parent="." instance=ExtResource("2_lrq6l")]
-position = Vector2(840, 472)
+position = Vector2(-450, 0)
 
 [connection signal="value_changed" from="UI/Speed/InputSpeed" to="Comet" method="_on_input_speed_value_changed"]
 [connection signal="pressed" from="UI/SimulationButtons/Start" to="Comet" method="_on_start_pressed"]
