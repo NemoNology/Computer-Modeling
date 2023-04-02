@@ -28,24 +28,20 @@ partial class MainForm
     /// </summary>
     private void InitializeComponent()
     {
+        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         splitContainer1 = new SplitContainer();
-        outputMainView = new PictureBox();
-        inputSimulationSpeed = new TrackBar();
+        outputMainView = new DataGridView();
         inputHeight = new NumericUpDown();
         inputWidth = new NumericUpDown();
-        label4 = new Label();
         label2 = new Label();
         label3 = new Label();
-        outputSimulationSpeed = new Label();
         label1 = new Label();
-        buttonStop = new Button();
-        buttonStart = new Button();
+        buttonSimulateProcess = new Button();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
         splitContainer1.Panel1.SuspendLayout();
         splitContainer1.Panel2.SuspendLayout();
         splitContainer1.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)outputMainView).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)inputSimulationSpeed).BeginInit();
         ((System.ComponentModel.ISupportInitialize)inputHeight).BeginInit();
         ((System.ComponentModel.ISupportInitialize)inputWidth).BeginInit();
         SuspendLayout();
@@ -63,16 +59,12 @@ partial class MainForm
         // splitContainer1.Panel2
         // 
         splitContainer1.Panel2.BackColor = SystemColors.ScrollBar;
-        splitContainer1.Panel2.Controls.Add(inputSimulationSpeed);
         splitContainer1.Panel2.Controls.Add(inputHeight);
         splitContainer1.Panel2.Controls.Add(inputWidth);
-        splitContainer1.Panel2.Controls.Add(label4);
         splitContainer1.Panel2.Controls.Add(label2);
         splitContainer1.Panel2.Controls.Add(label3);
-        splitContainer1.Panel2.Controls.Add(outputSimulationSpeed);
         splitContainer1.Panel2.Controls.Add(label1);
-        splitContainer1.Panel2.Controls.Add(buttonStop);
-        splitContainer1.Panel2.Controls.Add(buttonStart);
+        splitContainer1.Panel2.Controls.Add(buttonSimulateProcess);
         splitContainer1.Size = new Size(800, 450);
         splitContainer1.SplitterDistance = 573;
         splitContainer1.SplitterWidth = 10;
@@ -80,26 +72,35 @@ partial class MainForm
         // 
         // outputMainView
         // 
+        outputMainView.AllowUserToAddRows = false;
+        outputMainView.AllowUserToDeleteRows = false;
+        outputMainView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+        outputMainView.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+        outputMainView.BackgroundColor = SystemColors.ScrollBar;
+        outputMainView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+        dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        dataGridViewCellStyle1.BackColor = SystemColors.Window;
+        dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+        dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+        dataGridViewCellStyle1.SelectionBackColor = SystemColors.ScrollBar;
+        dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+        dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+        outputMainView.DefaultCellStyle = dataGridViewCellStyle1;
         outputMainView.Dock = DockStyle.Fill;
         outputMainView.Location = new Point(0, 0);
+        outputMainView.MultiSelect = false;
         outputMainView.Name = "outputMainView";
+        outputMainView.ReadOnly = true;
+        outputMainView.RowTemplate.Height = 25;
+        outputMainView.SelectionMode = DataGridViewSelectionMode.CellSelect;
         outputMainView.Size = new Size(573, 450);
         outputMainView.TabIndex = 0;
-        outputMainView.TabStop = false;
-        // 
-        // inputSimulationSpeed
-        // 
-        inputSimulationSpeed.Location = new Point(19, 336);
-        inputSimulationSpeed.Minimum = -9;
-        inputSimulationSpeed.Name = "inputSimulationSpeed";
-        inputSimulationSpeed.Size = new Size(174, 45);
-        inputSimulationSpeed.TabIndex = 3;
-        inputSimulationSpeed.Value = 1;
-        inputSimulationSpeed.ValueChanged += SimulationSpeedValue_Changed;
+        outputMainView.CellMouseDoubleClick += MainViewCell_DoubleClick;
+        outputMainView.PreviewKeyDown += MainView_PreviewKeyDown;
         // 
         // inputHeight
         // 
-        inputHeight.Location = new Point(91, 106);
+        inputHeight.Location = new Point(91, 126);
         inputHeight.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
         inputHeight.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
         inputHeight.Name = "inputHeight";
@@ -110,7 +111,7 @@ partial class MainForm
         // 
         // inputWidth
         // 
-        inputWidth.Location = new Point(87, 72);
+        inputWidth.Location = new Point(87, 92);
         inputWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
         inputWidth.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
         inputWidth.Name = "inputWidth";
@@ -119,21 +120,11 @@ partial class MainForm
         inputWidth.Value = new decimal(new int[] { 20, 0, 0, 0 });
         inputWidth.ValueChanged += SizeValue_Changed;
         // 
-        // label4
-        // 
-        label4.AutoSize = true;
-        label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        label4.Location = new Point(52, 302);
-        label4.Name = "label4";
-        label4.Size = new Size(102, 15);
-        label4.TabIndex = 1;
-        label4.Text = "Simulation speed";
-        // 
         // label2
         // 
         label2.AutoSize = true;
         label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        label2.Location = new Point(87, 43);
+        label2.Location = new Point(87, 63);
         label2.Name = "label2";
         label2.Size = new Size(30, 15);
         label2.TabIndex = 1;
@@ -142,52 +133,31 @@ partial class MainForm
         // label3
         // 
         label3.AutoSize = true;
-        label3.Location = new Point(39, 74);
+        label3.Location = new Point(39, 94);
         label3.Name = "label3";
         label3.Size = new Size(42, 15);
         label3.TabIndex = 1;
         label3.Text = "Width:";
         // 
-        // outputSimulationSpeed
-        // 
-        outputSimulationSpeed.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
-        outputSimulationSpeed.Location = new Point(19, 384);
-        outputSimulationSpeed.Name = "outputSimulationSpeed";
-        outputSimulationSpeed.Size = new Size(174, 25);
-        outputSimulationSpeed.TabIndex = 1;
-        outputSimulationSpeed.Text = "1";
-        outputSimulationSpeed.TextAlign = ContentAlignment.MiddleCenter;
-        // 
         // label1
         // 
         label1.AutoSize = true;
-        label1.Location = new Point(39, 108);
+        label1.Location = new Point(39, 128);
         label1.Name = "label1";
         label1.Size = new Size(46, 15);
         label1.TabIndex = 1;
         label1.Text = "Height:";
         // 
-        // buttonStop
+        // buttonSimulateProcess
         // 
-        buttonStop.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        buttonStop.Location = new Point(118, 231);
-        buttonStop.Name = "buttonStop";
-        buttonStop.Size = new Size(75, 23);
-        buttonStop.TabIndex = 0;
-        buttonStop.Text = "Stop";
-        buttonStop.UseVisualStyleBackColor = true;
-        buttonStop.Click += StopSimulation_Click;
-        // 
-        // buttonStart
-        // 
-        buttonStart.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-        buttonStart.Location = new Point(19, 231);
-        buttonStart.Name = "buttonStart";
-        buttonStart.Size = new Size(75, 23);
-        buttonStart.TabIndex = 0;
-        buttonStart.Text = "Start";
-        buttonStart.UseVisualStyleBackColor = true;
-        buttonStart.Click += StartSimulation_Click;
+        buttonSimulateProcess.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+        buttonSimulateProcess.Location = new Point(39, 274);
+        buttonSimulateProcess.Name = "buttonSimulateProcess";
+        buttonSimulateProcess.Size = new Size(135, 30);
+        buttonSimulateProcess.TabIndex = 0;
+        buttonSimulateProcess.Text = "Simulate Process";
+        buttonSimulateProcess.UseVisualStyleBackColor = true;
+        buttonSimulateProcess.Click += SimulationProcess_Click;
         // 
         // MainForm
         // 
@@ -196,14 +166,14 @@ partial class MainForm
         ClientSize = new Size(800, 450);
         Controls.Add(splitContainer1);
         Name = "MainForm";
-        Text = "Form1";
+        StartPosition = FormStartPosition.CenterScreen;
+        Text = "Game \"Life\"";
         splitContainer1.Panel1.ResumeLayout(false);
         splitContainer1.Panel2.ResumeLayout(false);
         splitContainer1.Panel2.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
         splitContainer1.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)outputMainView).EndInit();
-        ((System.ComponentModel.ISupportInitialize)inputSimulationSpeed).EndInit();
         ((System.ComponentModel.ISupportInitialize)inputHeight).EndInit();
         ((System.ComponentModel.ISupportInitialize)inputWidth).EndInit();
         ResumeLayout(false);
@@ -212,15 +182,11 @@ partial class MainForm
     #endregion
 
     private SplitContainer splitContainer1;
-    private PictureBox outputMainView;
-    private TrackBar inputSimulationSpeed;
     private NumericUpDown inputWidth;
     private Label label2;
     private Label label3;
     private Label label1;
-    private Button buttonStart;
+    private Button buttonSimulateProcess;
     private NumericUpDown inputHeight;
-    private Button buttonStop;
-    private Label label4;
-    private Label outputSimulationSpeed;
+    private DataGridView outputMainView;
 }
