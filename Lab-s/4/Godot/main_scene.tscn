@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://crixug624h05h"]
+[gd_scene load_steps=3 format=3 uid="uid://crixug624h05h"]
+
+[ext_resource type="Texture2D" uid="uid://8fiq0weps5x3" path="res://SphereSprite.png" id="1_g3pp8"]
+[ext_resource type="PackedScene" uid="uid://cepknk4u1rn5l" path="res://ball.tscn" id="1_r2c04"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -78,6 +81,33 @@ offset_right = 214.063
 offset_bottom = 31.0
 value = 5.0
 
+[node name="Buttoms" type="Control" parent="UI"]
+anchors_preset = 0
+offset_left = 393.0
+offset_top = -209.0
+offset_right = 433.0
+offset_bottom = -169.0
+
+[node name="start" type="Button" parent="UI/Buttoms"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Start
+"
+
+[node name="stop" type="Button" parent="UI/Buttoms"]
+layout_mode = 0
+offset_left = 72.0
+offset_right = 115.0
+offset_bottom = 31.0
+text = "Stop"
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 105)
 scale = Vector2(1, 0.251917)
+
+[node name="Start (0,0)" type="Sprite2D" parent="."]
+scale = Vector2(0.184539, 0.184539)
+texture = ExtResource("1_g3pp8")
+
+[node name="Ball" parent="." instance=ExtResource("1_r2c04")]
