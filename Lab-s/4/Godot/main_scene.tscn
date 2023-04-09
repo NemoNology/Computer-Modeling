@@ -111,3 +111,9 @@ scale = Vector2(0.184539, 0.184539)
 texture = ExtResource("1_g3pp8")
 
 [node name="Ball" parent="." instance=ExtResource("1_r2c04")]
+
+[connection signal="value_changed" from="UI/Inputs/String Length/inputStringLength" to="Ball" method="_on_input_string_length_value_changed"]
+[connection signal="value_changed" from="UI/Inputs/Start Angle/inputStartAngle" to="Ball" method="_on_input_start_angle_value_changed"]
+[connection signal="value_changed" from="UI/Inputs/Start Speed/inputStartSpeed" to="Ball" method="_on_input_start_speed_value_changed"]
+[connection signal="pressed" from="UI/Buttoms/start" to="Ball" method="_on_start_pressed"]
+[connection signal="pressed" from="UI/Buttoms/stop" to="Ball" method="_on_stop_pressed"]
