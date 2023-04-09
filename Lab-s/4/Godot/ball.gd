@@ -36,8 +36,8 @@ func _physics_process(delta):
 func Recalculate():
 	
 	frequency = sqrt(_stringLength / g);
-	startPhase = atan(-_startSpeed / (_stringLength * frequency * _startAngleDegree));
-	amplituda = sqrt(_startAngleDegree**2 + _startSpeed**2 / (_stringLength * frequency)**2);
+	startPhase = atan(-deg_to_rad(_startSpeed) / (_stringLength * frequency * deg_to_rad(_startAngleDegree)));
+	amplituda = sqrt(deg_to_rad(_startAngleDegree)**2 + deg_to_rad(_startSpeed)**2 / (_stringLength * frequency)**2);
 
 
 func Rotate(angleDegree: float):
