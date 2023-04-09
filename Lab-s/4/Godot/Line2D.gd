@@ -2,6 +2,7 @@ extends Line2D
 
 var point = Vector2.ZERO;
 
+
 func _ready():
 	
 	width = 1;

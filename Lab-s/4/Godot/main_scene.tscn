@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://crixug624h05h"]
+[gd_scene load_steps=5 format=3 uid="uid://crixug624h05h"]
 
+[ext_resource type="Script" path="res://Time.gd" id="1_eylrk"]
 [ext_resource type="Texture2D" uid="uid://8fiq0weps5x3" path="res://SphereSprite.png" id="1_g3pp8"]
 [ext_resource type="PackedScene" uid="uid://cepknk4u1rn5l" path="res://ball.tscn" id="1_r2c04"]
+[ext_resource type="Script" path="res://Speed.gd" id="2_0sggn"]
 
 [node name="MainScene" type="Node2D"]
 
@@ -79,6 +81,7 @@ layout_mode = 0
 offset_left = 131.0
 offset_right = 214.063
 offset_bottom = 31.0
+step = 0.1
 value = 5.0
 
 [node name="Buttoms" type="Control" parent="UI"]
@@ -102,6 +105,50 @@ offset_right = 115.0
 offset_bottom = 31.0
 text = "Stop"
 
+[node name="Output" type="Control" parent="UI"]
+anchors_preset = 0
+offset_left = -566.0
+offset_top = 404.0
+offset_right = -526.0
+offset_bottom = 444.0
+
+[node name="Time" type="Control" parent="UI/Output"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="UI/Output/Time"]
+layout_mode = 0
+offset_right = 43.0
+offset_bottom = 26.0
+text = "Time:"
+
+[node name="Output" type="Label" parent="UI/Output/Time"]
+layout_mode = 0
+offset_left = 44.0
+offset_right = 87.0
+offset_bottom = 26.0
+script = ExtResource("1_eylrk")
+
+[node name="Speed" type="Control" parent="UI/Output"]
+anchors_preset = 0
+offset_left = 305.0
+offset_right = 345.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="UI/Output/Speed"]
+layout_mode = 0
+offset_right = 43.0
+offset_bottom = 26.0
+text = "Speed:"
+
+[node name="Output" type="Label" parent="UI/Output/Speed"]
+layout_mode = 0
+offset_left = 54.0
+offset_right = 97.0
+offset_bottom = 26.0
+script = ExtResource("2_0sggn")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, 105)
 scale = Vector2(1, 0.251917)
@@ -117,3 +164,5 @@ texture = ExtResource("1_g3pp8")
 [connection signal="value_changed" from="UI/Inputs/Start Speed/inputStartSpeed" to="Ball" method="_on_input_start_speed_value_changed"]
 [connection signal="pressed" from="UI/Buttoms/start" to="Ball" method="_on_start_pressed"]
 [connection signal="pressed" from="UI/Buttoms/stop" to="Ball" method="_on_stop_pressed"]
+[connection signal="OnForDiagnostic" from="Ball" to="UI/Output/Time/Output" method="_on_ball_on_for_diagnostic"]
+[connection signal="OnForDiagnostic" from="Ball" to="UI/Output/Speed/Output" method="_on_ball_on_for_diagnostic"]
