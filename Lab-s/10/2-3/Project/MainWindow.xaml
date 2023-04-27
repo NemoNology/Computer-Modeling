@@ -7,8 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" 
         WindowStartupLocation="CenterScreen"
-        Height="450" Width="800" >
-    
+        Height="450" 
+        Width="800" 
+        MinHeight="450"
+        MinWidth="820" >
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -18,34 +21,179 @@
 
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
 
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
 
-        </Grid.ColumnDefinitions>
+        <Grid >
 
-        <StackPanel Grid.ColumnSpan="2"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch" >
+            <Grid.ColumnDefinitions>
 
-            <Canvas  Background="Gray" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+
+                <Canvas VerticalAlignment="Center">
+
+                    <Ellipse x:Name="outputClientIn"
+                             Fill="Gray"
+                             Height="50"
+                             Width="50" 
+                             Visibility="Hidden" />
+
+                </Canvas>
+
+                <Canvas Grid.Row="1" 
+                        VerticalAlignment="Center">
+
+                    <Ellipse x:Name="outputClientDenied"
+                             Fill="Red"
+                             Height="50"
+                             Width="50" 
+                             Visibility="Hidden"
+                             Canvas.Top="-50"
+                             Canvas.Right="0" />
+
+                </Canvas>
+
+
+
+            </Grid>
+
+            <WrapPanel VerticalAlignment="Center"
+                       x:Name="outputClientsQueue">
+
+
+            </WrapPanel>
+
+            <Canvas Grid.Column="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <Rectangle x:Name="outputServingBox" 
+                           Width="100"
+                           Height="100" 
+                           Fill="DarkOliveGreen"
+                           Canvas.Left="-50"
+                           Canvas.Top="-50" />
+
+            </Canvas>
+
+            <Canvas Grid.Column="3"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch">
+
+                <Ellipse x:Name="outputClientOut"
+                         Width="50"
+                         Height="50"
+                         Fill="Green"
+                         Canvas.Top ="-25" 
+                         Visibility="Hidden"/>
+
+            </Canvas>
             
-        </StackPanel>
+        </Grid>
 
-        <StackPanel Grid.Row="1" 
-                    Orientation="Horizontal">
+        <Grid  Grid.Row="1" 
+               Background="LightGray" >
 
-            <StackPanel Orientation="Horizontal" 
-                        VerticalAlignment="Center" 
-                        HorizontalAlignment="Center"
-                        Margin="10" >
+            <Grid.ColumnDefinitions>
 
-                <Button Content="Start"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" >
+
+                <Label Content="Time multiplier:"
+                       FontWeight="Medium" />
+                <Slider x:Name="inputTimeMultiplier"
+                        Minimum="-5"
+                        Maximum="5"
+                        Value="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Width="60"
+                        ValueChanged="TimeMultiplier_ValueChanged" />
+                <Label x:Name="outputTimeMultiplier" 
+                       Content="1" />
+
+                <Label Content="Queue capacity:" 
+                       FontWeight="Medium" />
+                <Slider x:Name="inputQueueCapacity"
+                        Minimum="0"
+                        Maximum="10"
+                        Value="0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Width="80"
+                        ValueChanged="QueueCapacity_ValueChanged" />
+                <Label x:Name="outputQueueCapacity"
+                       Content="0" />
 
             </StackPanel>
 
-        </StackPanel>
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                <Label Content="Denied:"
+                       Foreground="Red"
+                       FontWeight="Medium" />
+                <Label x:Name="outputDeniedPeopleAmount"
+                       Content="0" />
+
+                <Label Content="In queue:"
+                       Foreground="Blue"
+                       FontWeight="Medium" />
+                <Label x:Name="outputPeopleInQueueAmount"
+                       Content="0" />
+
+                <Label Content="Served:"
+                       Foreground="Green"
+                       FontWeight="Medium" />
+                <Label x:Name="outputServedPeopleAmount"
+                       Content="0" />
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="2"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+
+                <Button x:Name="inputStart" 
+                        Content="Start"
+                        Margin="10"
+                        Padding="10, 5"
+                        FontWeight="Medium"
+                        Click="Start_Click" />
+
+                <Label x:Name="outputStatus" 
+                       VerticalContentAlignment="Center" />
+
+                <Label x:Name="outputRemainingTime"
+                       VerticalContentAlignment="Center" />
+
+            </StackPanel>
+
+        </Grid>
+        
 
     </Grid>
     
