@@ -19,7 +19,8 @@ namespace Project
 
             Subscribing();
 
-            inputTimeMultiplier.Value = 1;
+            inputTimeMultiplier.Value = 2;
+            inputQueueCapacity.Value = 3;
 
             _serviceSystem.ServiceTime = 100;
         }
@@ -35,7 +36,10 @@ namespace Project
         private float _timeMultiplier = 1;
         private double _remainingTime = 0;
 
-        private void TimeMultiplier_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void TimeMultiplier_ValueChanged(
+            object sender,
+            RoutedPropertyChangedEventArgs<double> e
+        )
         {
             if (outputTimeMultiplier == null)
             {
@@ -54,7 +58,10 @@ namespace Project
             }
         }
 
-        private void QueueCapacity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void QueueCapacity_ValueChanged(
+            object sender,
+            RoutedPropertyChangedEventArgs<double> e
+        )
         {
             if (outputQueueCapacity == null)
             {
@@ -97,74 +104,41 @@ namespace Project
 
                 outputClientIn.BeginAnimation(Canvas.RightProperty, rollingAnimation);
 
-                outputRemainingTime.Content = $"{_remainingTime:f2} / {_serviceSystem.ServiceTime / _timeMultiplier:f2}";
+                outputRemainingTime.Content =
+                    $"{_remainingTime:f2} / {_serviceSystem.ServiceTime / _timeMultiplier:f2}";
 
                 _remainingTime += timeDelay.TotalSeconds;
             });
         }
 
-        private void Service_Free(TimeSpan timeDelay)
-        {
-            _servedAmount++;
-
-            Dispatcher.Invoke(() =>
-            {
-                outputClientIn.StrokeThickness = 0;
-
-                outputClientOut.Visibility = Visibility.Visible;
-
-                var canvasWidth = (double)outputClientOut.Parent.GetValue(ActualWidthProperty);
-                var rollingAnimation = new DoubleAnimation(0, canvasWidth, new Duration(timeDelay));
-
-                outputClientOut.BeginAnimation(Canvas.LeftProperty, rollingAnimation);
-
-                outputServedPeopleAmount.Content = _servedAmount.ToString();
-            });
-
-            Service_Busy(timeDelay, true);
-        }
-
-        private void Service_Busy(TimeSpan timeDelay, bool isTookClient = false)
+        private void Client_Service(TimeSpan timeDelay, bool isStillBusy = false)
         {
             Dispatcher.Invoke(() =>
             {
-                if (isTookClient)
+                var clientsInQueueAmount = outputClientsQueue.Children.Count;
+
+                if (isStillBusy)
                 {
-                    if (outputClientsQueue.Children.Count > 0)
+                    if (clientsInQueueAmount >= _queueCapacity)
                     {
-                        outputClientsQueue.Children.RemoveAt(0);
+                        Client_Denied(timeDelay);
                     }
-                }
-                else if (outputClientsQueue.Children.Count < _queueCapacity)
-                {
-                    var client = new Ellipse();
-                    client.Width = client.Height = 50;
-                    client.Fill = Brushes.Blue;
-
-                    outputClientsQueue.Children.Add(client);
-
-                    _inQueueAmount++;
-
-                    outputPeopleInQueueAmount.Content = _inQueueAmount.ToString();
+                    else
+                    {
+                        Client_PuttedInQueue();
+                    }
                 }
                 else
                 {
-                    _deniedAmount++;
+                    if (clientsInQueueAmount > 0)
+                    {
+                        _inQueueAmount++;
 
-                    outputClientDenied.Visibility = Visibility.Visible;
-
-                    var canvasWidthScaled = (double)outputClientDenied.Parent.GetValue(ActualWidthProperty) * 1.25;
-                    var rollingAnimation = new DoubleAnimation(0, canvasWidthScaled, new Duration(timeDelay));
-
-                    outputClientDenied.BeginAnimation(Canvas.RightProperty, rollingAnimation);
-
-                    outputDeniedPeopleAmount.Content = _deniedAmount.ToString();
+                        outputPeopleInQueueAmount.Content = _inQueueAmount.ToString();
+                    }
                 }
 
-                var squareWidthHalf = (double)outputServingBox.GetValue(ActualWidthProperty) / 2;
-                var busyAnimation = new DoubleAnimation(0, squareWidthHalf, new Duration(timeDelay));
-
-                outputServingBox.BeginAnimation(Shape.StrokeThicknessProperty, busyAnimation);
+                Service_Servicing(timeDelay);
             });
         }
 
@@ -177,11 +151,13 @@ namespace Project
                 outputClientIn.Visibility = Visibility.Hidden;
                 outputClientDenied.Visibility = Visibility.Hidden;
 
+                var timeDelay = TimeSpan.FromSeconds(4 / _timeMultiplier);
+
                 while (outputClientsQueue.Children.Count > 0)
                 {
-                    var timeDelay = TimeSpan.FromSeconds(1);
+                    outputClientsQueue.Children.RemoveAt(0);
 
-                    Service_Busy(timeDelay, true);
+                    Service_Servicing(timeDelay);
 
                     await Task.Delay(timeDelay);
                 }
@@ -199,9 +175,72 @@ namespace Project
         {
             _serviceSystem.OnClientInputStart += Client_Input;
             _serviceSystem.OnServiceCompleted += Service_Completed;
-            _serviceSystem.OnServiceFree += Service_Free;
-            _serviceSystem.OnServiceBusy += Service_Busy;
+            _serviceSystem.OnService += Client_Service;
         }
 
+        private async void Client_Serviced(TimeSpan timeDelay)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                var canvasWidth = (double)outputClientOut.Parent.GetValue(ActualWidthProperty);
+                var rollingAnimation = new DoubleAnimation(0, canvasWidth, new Duration(timeDelay));
+
+                outputClientOut.BeginAnimation(Canvas.LeftProperty, rollingAnimation);
+
+                _servedAmount++;
+
+                outputServedPeopleAmount.Content = _servedAmount.ToString();
+            });
+        }
+
+        private async void Client_PuttedInQueue()
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                outputClientsQueue.Children.Add(
+                    new Ellipse() { Fill = Brushes.Blue, Width = 50, Height = 50 }
+                );
+
+                _inQueueAmount++;
+
+                outputPeopleInQueueAmount.Content = _inQueueAmount.ToString();
+            });
+        }
+
+        private async void Client_Denied(TimeSpan timeDelay)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                outputClientDenied.Visibility = Visibility.Visible;
+
+                var canvasWidthScaled =
+                    (double)outputClientDenied.Parent.GetValue(ActualWidthProperty) * 1.25;
+                var rollingAnimation = new DoubleAnimation(
+                    0,
+                    canvasWidthScaled,
+                    new Duration(timeDelay)
+                );
+
+                outputClientDenied.BeginAnimation(Canvas.RightProperty, rollingAnimation);
+
+                _deniedAmount++;
+
+                outputDeniedPeopleAmount.Content = _deniedAmount.ToString();
+            });
+        }
+    
+        private async void Service_Servicing(TimeSpan timeDelay)
+        {
+            await Dispatcher.InvokeAsync(() =>
+            {
+                var busyAnimation = new DoubleAnimation(0, 360, new Duration(timeDelay));
+
+                outputServingBoxRotateTransform.BeginAnimation(RotateTransform.AngleProperty, busyAnimation);
+            });
+
+            await Task.Delay(timeDelay);
+
+            Client_Serviced(timeDelay);
+        }
     }
 }

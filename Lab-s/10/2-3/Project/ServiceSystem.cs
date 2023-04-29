@@ -7,8 +7,7 @@ namespace Project
     {
         public event Action<TimeSpan>? OnClientInputStart;
         public event Action? OnServiceCompleted;
-        public event Action<TimeSpan, bool>? OnServiceBusy;
-        public event Action<TimeSpan>? OnServiceFree;
+        public event Action<TimeSpan, bool>? OnService;
 
         public int ServiceTime { get; set; } = 40;
 
@@ -38,6 +37,8 @@ namespace Project
 
             bool firstClient = true;
 
+            int serviceTime = ServiceTime;
+
             var rnd = new Random(DateTime.Now.Millisecond);
 
             while (t <= Tn)
@@ -48,25 +49,18 @@ namespace Project
 
                 var timeDelay = TimeSpan.FromSeconds(ro / timeMultiplier);
 
-                double serviceIntensity = Nu(t, ServiceTime);
+                var serviceIntensity = Nu(t, serviceTime);
 
-                double serviceDeniedPossibility =
-                    //1 - (serviceIntensity / (buffer + serviceIntensity));
-                    1 - serviceIntensity;
+                var serviceDeniedPossibility = 1 - serviceIntensity;
 
                 t += ro;
 
                 OnClientInputStart?.Invoke(timeDelay);
                 await Task.Delay(timeDelay);
 
-                if (rnd.NextDouble() <= serviceDeniedPossibility && !firstClient)
-                {
-                    OnServiceBusy?.Invoke(timeDelay, false);
-                }
-                else
-                {
-                    OnServiceFree?.Invoke(timeDelay);
-                }
+                OnService?.Invoke(
+                    timeDelay,
+                    rnd.NextDouble() <= serviceDeniedPossibility && !firstClient);
 
                 firstClient = false;
             }
