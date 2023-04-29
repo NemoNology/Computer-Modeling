@@ -6,21 +6,22 @@ namespace Project
     internal class ServiceSystem
     {
         public event Action<TimeSpan>? OnClientInputStart;
-        public event Action<TimeSpan>? OnClientDenied;
-        public event Action<TimeSpan>? OnClientPutInQueue;
-        public event Action<TimeSpan>? OnClientServed;
         public event Action? OnServiceCompleted;
+        public event Action<TimeSpan, bool>? OnServiceBusy;
+        public event Action<TimeSpan>? OnServiceFree;
 
-        public int ServiceTime { get; set; } = 20;
+        public int ServiceTime { get; set; } = 40;
 
         private double Lambda(double time)
         {
             return 1.1 - Math.Pow(time - 50, 2) / 2500;
         }
 
-        private double Nu(double time)
+        private double Nu(double time, int ServiceTime)
         {
-            if (time <= 40)
+            float serviceTimePart = ServiceTime * 0.4f;
+
+            if (time <= serviceTimePart)
             {
                 return 0.7 * time;
             }
@@ -35,6 +36,8 @@ namespace Project
             int Tn = ServiceTime;
             double t = 0;
 
+            bool firstClient = true;
+
             var rnd = new Random(DateTime.Now.Millisecond);
 
             while (t <= Tn)
@@ -45,10 +48,27 @@ namespace Project
 
                 var timeDelay = TimeSpan.FromSeconds(ro / timeMultiplier);
 
+                double serviceIntensity = Nu(t, ServiceTime);
+
+                double serviceDeniedPossibility =
+                    //1 - (serviceIntensity / (buffer + serviceIntensity));
+                    1 - serviceIntensity;
+
                 t += ro;
 
                 OnClientInputStart?.Invoke(timeDelay);
                 await Task.Delay(timeDelay);
+
+                if (rnd.NextDouble() <= serviceDeniedPossibility && !firstClient)
+                {
+                    OnServiceBusy?.Invoke(timeDelay, false);
+                }
+                else
+                {
+                    OnServiceFree?.Invoke(timeDelay);
+                }
+
+                firstClient = false;
             }
 
             OnServiceCompleted?.Invoke();

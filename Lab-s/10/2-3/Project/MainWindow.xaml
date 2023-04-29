@@ -7,8 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" 
         WindowStartupLocation="CenterScreen"
-        Height="450" 
-        Width="800" 
         MinHeight="450"
         MinWidth="820" >
 
@@ -70,11 +68,9 @@
 
             </Grid>
 
-            <WrapPanel VerticalAlignment="Center"
-                       x:Name="outputClientsQueue">
-
-
-            </WrapPanel>
+            <WrapPanel Grid.Column="1"
+                       VerticalAlignment="Center"
+                       x:Name="outputClientsQueue" />
 
             <Canvas Grid.Column="2"
                     VerticalAlignment="Center"
@@ -85,7 +81,9 @@
                            Height="100" 
                            Fill="DarkOliveGreen"
                            Canvas.Left="-50"
-                           Canvas.Top="-50" />
+                           Canvas.Top="-50" 
+                           Stroke="Green"
+                           StrokeThickness="50" />
 
             </Canvas>
 
@@ -97,8 +95,9 @@
                          Width="50"
                          Height="50"
                          Fill="Green"
-                         Canvas.Top ="-25" 
-                         Visibility="Hidden"/>
+                         Canvas.Top ="-25"
+                         Visibility="Hidden"
+                         />
 
             </Canvas>
             
@@ -150,7 +149,8 @@
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal"
                         VerticalAlignment="Center"
-                        HorizontalAlignment="Center">
+                        HorizontalAlignment="Center"
+                        Background="WhiteSmoke" >
 
                 <Label Content="Denied:"
                        Foreground="Red"
@@ -158,7 +158,7 @@
                 <Label x:Name="outputDeniedPeopleAmount"
                        Content="0" />
 
-                <Label Content="In queue:"
+                <Label Content="In queue (all time):"
                        Foreground="Blue"
                        FontWeight="Medium" />
                 <Label x:Name="outputPeopleInQueueAmount"
